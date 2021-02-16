@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createWorker } from "tesseract.js";
 import { FilePond, registerPlugin } from "react-filepond";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 import "filepond/dist/filepond.min.css";
+import firebase from "firebase/app";
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -16,8 +17,23 @@ const ORC = () => {
   //   create some ref
   let pond = useRef();
 
-  //   do the ocr
+  const updateOCR = async (text) => {
+    const userInfoRef = firebase.database().ref("users");
+    const dataRef = firebase.database().ref("ocrText");
+    let users = [];
 
+    userInfoRef.on("value", (snapshot) => {
+      const user = snapshot.val();
+      for (let id in user) {
+        users.push({ id, ...user[id], ocrText: text });
+      }
+    });
+
+    users.map((user) => {
+      return dataRef.push({ ...user });
+    });
+  };
+  //   do the ocr
   const startRecognition = async (file) => {
     setIsProcessing(true);
 
@@ -31,6 +47,7 @@ const ORC = () => {
 
     setIsProcessing(false);
     setRecognizedText(text);
+    await updateOCR(text);
   };
 
   const updateProgressStatus = (message) => {

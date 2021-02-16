@@ -4,11 +4,15 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../context/AuthContext";
 import { Link, useHistory } from "react-router-dom";
+import firebase from "firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const history = useHistory();
   const { signUp } = useAuth();
+
+  const userRef = firebase.database().ref("users");
 
   const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -43,6 +47,8 @@ const SignUp = () => {
           try {
             setErrorMessage("");
             await signUp(values.email, values.password);
+            let userData = { ...values, id: uuidv4() };
+            await userRef.push(userData);
             history.push("/");
           } catch {
             setErrorMessage("Failed to Sign Up");
