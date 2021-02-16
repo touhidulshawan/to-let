@@ -78,13 +78,7 @@ const ORC = () => {
           onremovefile={(error, file) => setRecognizedText("")}
         />
       </div>
-      <div>
-        {isProcessing ? (
-          <p>Processing Image - {percentage}</p>
-        ) : (
-          <p>{recognizedText}</p>
-        )}
-      </div>
+      <div>{isProcessing ? <p>Processing Image - {percentage}%</p> : ""}</div>
     </div>
   );
 };
