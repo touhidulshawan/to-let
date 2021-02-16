@@ -84,7 +84,20 @@ const ORC = () => {
             Processing Image - {percentage}%
           </p>
         ) : (
-          ""
+          <div
+            className={` ${
+              !isProcessing ? "hidden" : ""
+            } w-full bg-white rounded-2xl shadow-lg mb-5 lg:w-8/12 lg:m-auto`}
+          >
+            <div className="border-b-2 border-gray-200 mb-3">
+              <h4 className="text-lg py-3 px-4 text-gray-800">
+                Extracted Text
+              </h4>
+            </div>
+            <div className="py-3 px-3 leading-7">
+              <p className="text-gray-800">{recognizedText}</p>
+            </div>
+          </div>
         )}
       </div>
     </div>
