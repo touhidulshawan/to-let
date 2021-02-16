@@ -17,7 +17,7 @@ const ORC = () => {
   //   create some ref
   let pond = useRef();
 
-  const updateOCR = async (text) => {
+  const updateOCR = async (content) => {
     const userInfoRef = firebase.database().ref("users");
     const dataRef = firebase.database().ref("ocrText");
     let users = [];
@@ -25,10 +25,10 @@ const ORC = () => {
     userInfoRef.on("value", (snapshot) => {
       const user = snapshot.val();
       for (let id in user) {
-        users.push({ id, ...user[id], ocrText: text });
+        users.push({ id, ...user[id], ocrText: content });
       }
     });
-
+    console.log(users);
     users.map((user) => {
       return dataRef.push({ ...user });
     });
