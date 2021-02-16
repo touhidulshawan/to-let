@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const NavBar = () => {
@@ -18,14 +18,22 @@ const NavBar = () => {
   };
   return (
     <>
-      {errorMessage && <div className="alert">{errorMessage}</div>}
-      <nav>
-        <ul>
+      {errorMessage && (
+        <div className="bg-red-100 text-red-700 py-2 px-5 my-3 w-ful">
+          {errorMessage}
+        </div>
+      )}
+      <nav className="bg-gray-50 shadow-md py-4 px-3 flex justify-end items-center lg:top-0 lg:left-0 lg:absolute lg:w-full lg:mb-5">
+        <ul className="lg:mx-3">
           <li>
-            <NavLink to="/">Home</NavLink>
+            <button
+              className="cursor-pointer text-pink-600"
+              onClick={handleLogout}
+            >
+              Sign Out
+            </button>
           </li>
         </ul>
-        <button onClick={handleLogout}>Sign Out</button>
       </nav>
     </>
   );

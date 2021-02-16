@@ -70,7 +70,7 @@ const ORC = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="mt-20  top-0 left-0">
       <div>
         <FilePond
           ref={pond}
@@ -78,7 +78,15 @@ const ORC = () => {
           onremovefile={(error, file) => setRecognizedText("")}
         />
       </div>
-      <div>{isProcessing ? <p>Processing Image - {percentage}%</p> : ""}</div>
+      <div>
+        {isProcessing ? (
+          <p className="py-4 px-6 bg-yellow-200 text-yellow-700">
+            Processing Image - {percentage}%
+          </p>
+        ) : (
+          ""
+        )}
+      </div>
     </div>
   );
 };

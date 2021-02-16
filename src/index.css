@@ -16,13 +16,15 @@ html {
 }
 
 body {
-  display: grid;
+  /* display: grid; */
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #f0f2f5;
-
-  .filepond--credits {
-    display: none;
-  }
+  height: 100%;
+  /* justify-items: center;
+  align-items: center; */
+}
+.filepond--credits {
+  display: none;
 }

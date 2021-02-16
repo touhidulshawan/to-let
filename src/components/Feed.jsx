@@ -18,7 +18,7 @@ const Feed = () => {
     });
   }, []);
   return (
-    <div>
+    <div className="px-4 py-3">
       {textLists
         ? textLists.map(({ firstName, lastName, ocrText, id }) => (
             <PostCard
