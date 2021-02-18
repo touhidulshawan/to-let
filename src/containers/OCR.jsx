@@ -4,7 +4,10 @@ import { FilePond, registerPlugin } from "react-filepond";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 import "filepond/dist/filepond.min.css";
+import { useAuth } from "../context/AuthContext";
 import firebase from "firebase/app";
+import { firestore } from "../Firebase";
+import { v4 as uuidv4 } from "uuid";
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -14,25 +17,12 @@ const ORC = () => {
   const [percentage, setPercentage] = useState("0.0");
   const [worker, setWorker] = useState({});
 
+  const { currentUser } = useAuth();
   //   create some ref
   let pond = useRef();
+  // ref to database
+  const ocrTextsRef = firestore.collection("ocrTexts");
 
-  const updateOCR = async (content) => {
-    const userInfoRef = firebase.database().ref("users");
-    const dataRef = firebase.database().ref("ocrText");
-    let users = [];
-
-    userInfoRef.on("value", (snapshot) => {
-      const user = snapshot.val();
-      for (let id in user) {
-        users.push({ id, ...user[id], ocrText: content });
-      }
-    });
-    console.log(users);
-    users.map((user) => {
-      return dataRef.push({ ...user });
-    });
-  };
   //   do the ocr
   const startRecognition = async (file) => {
     setIsProcessing(true);
@@ -47,7 +37,22 @@ const ORC = () => {
 
     setIsProcessing(false);
     setRecognizedText(text);
-    await updateOCR(text);
+    try {
+      if (currentUser && !isProcessing) {
+        const { uid, displayName, photoURL } = currentUser;
+        await ocrTextsRef.add({
+          id: uuidv4(),
+          ocrText: text,
+          createdTime: firebase.firestore.FieldValue.serverTimestamp(),
+          postTime: new Date().toDateString(),
+          uid,
+          displayName,
+          photoURL,
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const updateProgressStatus = (message) => {
@@ -93,9 +98,6 @@ const ORC = () => {
               <h4 className="text-lg py-3 px-4 text-gray-800">
                 Extracted Text
               </h4>
-            </div>
-            <div className="py-3 px-3 leading-7">
-              <p className="text-gray-800">{recognizedText}</p>
             </div>
           </div>
         )}
