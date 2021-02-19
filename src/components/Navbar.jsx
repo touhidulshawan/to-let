@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const NavBar = () => {
@@ -24,7 +24,12 @@ const NavBar = () => {
         </div>
       )}
       <nav className="bg-gray-50 shadow-md py-4 px-3 flex justify-end items-center lg:top-0 lg:left-0 lg:absolute lg:w-full lg:mb-5">
-        <ul className="lg:mx-3">
+        <ul className="lg:mx-3 flex">
+          <li className="mr-3">
+            <NavLink className="text-blue-600" to="/chat">
+              Chat
+            </NavLink>
+          </li>
           <li>
             <button
               className="cursor-pointer text-pink-600"

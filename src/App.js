@@ -3,6 +3,7 @@ import SignIn from "./components/SignIn";
 import { AuthProvider } from "./context/AuthContext";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./components/PrivateRoute";
+import Chat from "./components/chat/Chat";
 
 const App = () => {
   return (
@@ -10,6 +11,7 @@ const App = () => {
       <AuthProvider>
         <Switch>
           <PrivateRoute exact path="/" component={Home} />
+          <Route exact path="/chat" component={Chat} />
           <Route exact path="/signIn" component={SignIn} />
         </Switch>
       </AuthProvider>
