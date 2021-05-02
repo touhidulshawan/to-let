@@ -1,19 +1,42 @@
+import DeleteIcon from "./icons/DeleteIcon";
+import { useAuth } from "../context/AuthContext";
+
 const PostCard = (props) => {
-  const { userName, createdTime, ocrText, photoURL } = props;
+  const {
+    userName,
+    createdTime,
+    ocrText,
+    photoURL,
+    uid,
+    postID,
+    deletePost,
+  } = props;
+
+  const { currentUser } = useAuth();
+
   return (
     <div className="w-full bg-white rounded-2xl shadow-lg mb-5 lg:w-6/12 lg:m-auto lg:mb-6">
-      <div className="p-4 border-b-2 border-gray-200 mb-3 flex items-center">
-        <div>
-          <img
-            className="w-12 h-12 rounded-full border-2 border-gray-300 p-1"
-            src={photoURL}
-            alt="user"
-          />
+      <div className="p-4 border-b-2 border-gray-200 mb-3 flex justify-between items-center ">
+        <div className="flex items-center">
+          <div>
+            <img
+              className="w-12 h-12 rounded-full border-2 border-gray-300 p-1"
+              src={photoURL}
+              alt="user"
+            />
+          </div>
+          <div>
+            <h4 className="text-lg px-4 font-bold text-gray-800">{userName}</h4>
+            <span className="text-sm px-4 text-gray-400">{`Posted on ${createdTime}`}</span>
+          </div>
         </div>
-        <div>
-          <h4 className="text-lg px-4 font-bold text-gray-800">{userName}</h4>
-          <span className="text-sm px-4 text-gray-400">{`Posted on ${createdTime}`}</span>
-        </div>
+        <button
+          className="text-red-500 disabled:opacity-50 disabled:cursor-not-allowed hover:text-red-700 focus:ring-2 focus:ring-red-600 p-2 rounded"
+          disabled={uid !== currentUser.uid}
+          onClick={() => deletePost(postID)}
+        >
+          <DeleteIcon />
+        </button>
       </div>
       <div className="py-3 px-3 leading-7 lg:leading-8 lg:px-5">
         <p className="text-gray-800">{ocrText}</p>
