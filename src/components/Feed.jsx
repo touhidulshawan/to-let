@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
 import PostCard from "./PostCard";
-import { useHistory } from "react-router-dom";
+import Modal from "./Modal";
 
 const Feed = () => {
   const [textLists, setTextList] = useState([]);
-  const history = useHistory();
+  const [showModal, setShowModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
 
   useEffect(() => {
     const unsubscribe = firestore
@@ -30,10 +31,11 @@ const Feed = () => {
       .doc(postID)
       .delete()
       .then(() => {
-        alert("Post Successfully Deleted");
-        history.push("/");
+        setShowModal(true);
       })
-      .catch((error) => alert("Something Wrong! Please  try again."));
+      .catch((error) => {
+        setErrorModal(true);
+      });
   };
   const renderPost =
     textLists &&
@@ -50,6 +52,16 @@ const Feed = () => {
       />
     ));
 
-  return <div className="px-4 py-3 flex flex-col-reverse">{renderPost}</div>;
+  return (
+    <div className="px-4 py-3 flex flex-col-reverse">
+      {renderPost}
+      {showModal ? (
+        <Modal modalMessage="Post has been removed successfully." success />
+      ) : null}
+      {errorModal ? (
+        <Modal modalMessage="Something wrong! Please try again." />
+      ) : null}
+    </div>
+  );
 };
 export default Feed;
