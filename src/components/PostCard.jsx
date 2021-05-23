@@ -41,8 +41,6 @@ const PostCard = (props) => {
   const handleCommentModal = () => {
     setShowCommentModal(!showCommentModal);
   };
-  console.log(showCommentModal);
-
   return (
     <div className="w-full bg-white rounded-2xl shadow-lg mb-5 lg:w-6/12 lg:m-auto lg:mb-6">
       <div className="p-4 border-b-2 border-gray-200 mb-3 flex justify-between items-center ">
