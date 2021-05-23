@@ -61,18 +61,20 @@ const PostCard = (props) => {
         <h3 className=" tracking-wide text-lg pb-3 border-b-2 border-gray-400">
           Comments
         </h3>
-        {comments.length > 0
-          ? comments.map((c) => (
-              <CommentCard
-                key={c.postTime}
-                uid={c.uid}
-                displayName={c.displayName}
-                photoURL={c.photoURL}
-                postTime={c.postTime}
-                comment={c.comment}
-              />
-            ))
-          : null}
+        {comments.length > 0 ? (
+          comments.map((c) => (
+            <CommentCard
+              key={c.postTime}
+              uid={c.uid}
+              displayName={c.displayName}
+              photoURL={c.photoURL}
+              postTime={c.postTime}
+              comment={c.comment}
+            />
+          ))
+        ) : (
+          <p>No comments found</p>
+        )}
       </div>
       {showModal ? <Modal modaltype="comment" id={postID} /> : null}
     </div>
