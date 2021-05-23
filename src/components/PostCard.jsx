@@ -59,14 +59,19 @@ const PostCard = (props) => {
       {/* display comment here  */}
       {comments.length > 0
         ? comments.map((c) => (
-            <CommentCard
-              key={c.postTime}
-              uid={c.uid}
-              displayName={c.displayName}
-              photoURL={c.photoURL}
-              postTime={c.postTime}
-              comment={c.comment}
-            />
+            <div className="grid grid-cols-1 gap-3  p-3 border-t-2 border-blue-300 bg-gray-800 text-gray-100 rounded-b-2xl">
+              <h3 className=" tracking-wide text-lg pb-3 border-b-2 border-gray-400">
+                Comments
+              </h3>
+              <CommentCard
+                key={c.postTime}
+                uid={c.uid}
+                displayName={c.displayName}
+                photoURL={c.photoURL}
+                postTime={c.postTime}
+                comment={c.comment}
+              />
+            </div>
           ))
         : null}
       {showModal ? <Modal modaltype="comment" id={postID} /> : null}
