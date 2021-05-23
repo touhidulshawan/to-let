@@ -4,6 +4,7 @@ import CommentIcon from "./icons/CommentIcon";
 import { useState } from "react";
 import Modal from "./Modal";
 import CommentCard from "./CommentCard";
+import { FieldValue, firestore } from "../Firebase";
 
 const PostCard = (props) => {
   const {
@@ -20,6 +21,28 @@ const PostCard = (props) => {
   const { currentUser } = useAuth();
 
   const [showModal, setShowModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [errorModal, setErrorModal] = useState(false);
+
+  const removeComment = (commentID) => {
+    firestore
+      .collection("ocrTexts")
+      .doc(postID)
+      .update({
+        comments: FieldValue.arrayRemove(postID === commentID),
+      })
+      .then(() => {
+        setShowModal(true);
+      })
+      .catch((err) => {
+        setErrorModal(true);
+      });
+  };
+  const handleCommentModal = () => {
+    setShowCommentModal(!showCommentModal);
+  };
+  console.log(showCommentModal);
+
   return (
     <div className="w-full bg-white rounded-2xl shadow-lg mb-5 lg:w-6/12 lg:m-auto lg:mb-6">
       <div className="p-4 border-b-2 border-gray-200 mb-3 flex justify-between items-center ">
@@ -39,7 +62,7 @@ const PostCard = (props) => {
         <div className="flex items-center gap-2">
           <button
             className=" p-1 text-purple-600 hover:text-purple-400 transition duration-300 ease-linear focus:ring-2 focus:ring-purple-300 rounded outline none"
-            onClick={() => setShowModal(!showModal)}
+            onClick={() => setShowCommentModal(handleCommentModal)}
           >
             <CommentIcon />
           </button>
@@ -64,19 +87,35 @@ const PostCard = (props) => {
         {comments.length > 0 ? (
           comments.map((c) => (
             <CommentCard
-              key={c.postTime}
+              key={c.postID}
+              postID={c.postID}
               uid={c.uid}
               displayName={c.displayName}
               photoURL={c.photoURL}
               postTime={c.postTime}
               comment={c.comment}
+              handleRemove={removeComment}
             />
           ))
         ) : (
-          <p>No comments found</p>
+          <p className="text-center p-4 text-gray-400 text-lg">
+            No comments found
+          </p>
         )}
       </div>
-      {showModal ? <Modal modaltype="comment" id={postID} /> : null}
+      {showCommentModal ? (
+        <Modal
+          modaltype="comment"
+          id={postID}
+          handleCommentModal={handleCommentModal}
+        />
+      ) : null}
+      {showModal ? (
+        <Modal modalMessage="Comment has been removed successfully." success />
+      ) : null}
+      {errorModal ? (
+        <Modal modalMessage="Something wrong! Please try again." />
+      ) : null}
     </div>
   );
 };

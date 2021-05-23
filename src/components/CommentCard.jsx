@@ -1,7 +1,15 @@
 import DeleteIcon from "./icons/DeleteIcon";
 import { useAuth } from "../context/AuthContext";
 
-const CommentCard = ({ uid, displayName, photoURL, postTime, comment }) => {
+const CommentCard = ({
+  uid,
+  displayName,
+  photoURL,
+  postTime,
+  comment,
+  postID,
+  handleRemove,
+}) => {
   const { currentUser } = useAuth();
   return (
     <div className="my-2 py-1 flex justify-between items-start border-b border-gray-700">
@@ -22,6 +30,7 @@ const CommentCard = ({ uid, displayName, photoURL, postTime, comment }) => {
       <button
         className="mt-4 mr-3 text-red-500 disabled:opacity-50 disabled:cursor-not-allowed hover:text-red-700 focus:ring-2 focus:ring-red-600 p-2 rounded"
         disabled={uid !== currentUser.uid}
+        onClick={() => handleRemove(postID)}
       >
         <DeleteIcon />
       </button>

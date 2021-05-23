@@ -3,7 +3,13 @@ import CommentForm from "./CommentForm";
 import FailedIcon from "./icons/FailedIcon";
 
 import SuccessIcon from "./icons/SuccessIcon";
-const Modal = ({ modalMessage, success, modaltype, id }) => {
+const Modal = ({
+  modalMessage,
+  success,
+  modaltype,
+  id,
+  handleCommentModal,
+}) => {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
@@ -49,12 +55,21 @@ const Modal = ({ modalMessage, success, modaltype, id }) => {
             )}
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-            <button
-              className="outline-none border-gray-300 px-4 py-2 bg-white  text-gray-700 hover:bg-gray-50  mt-3 w-full inline-flex justify-center rounded-md border-2 text-base font-bold focus:border-transparent focus:ring-2 ring-gray-400 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm tracking-wide"
-              onClick={() => setShow(false)}
-            >
-              Close
-            </button>
+            {modaltype === "comment" ? (
+              <button
+                className="outline-none border-gray-300 px-4 py-2 bg-white  text-gray-700 hover:bg-gray-50  mt-3 w-full inline-flex justify-center rounded-md border-2 text-base font-bold focus:border-transparent focus:ring-2 ring-gray-400 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm tracking-wide"
+                onClick={handleCommentModal}
+              >
+                Close
+              </button>
+            ) : (
+              <button
+                className="outline-none border-gray-300 px-4 py-2 bg-white  text-gray-700 hover:bg-gray-50  mt-3 w-full inline-flex justify-center rounded-md border-2 text-base font-bold focus:border-transparent focus:ring-2 ring-gray-400 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm tracking-wide"
+                onClick={() => setShow(false)}
+              >
+                Close
+              </button>
+            )}
           </div>
         </div>
       </div>

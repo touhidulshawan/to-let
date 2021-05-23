@@ -2,7 +2,7 @@ import { useState } from "react";
 import SendIcon from "./icons/SendIcon";
 import { useAuth } from "../context/AuthContext";
 import { firestore, FieldValue } from "../Firebase";
-import Modal from "./Modal";
+import { v4 as uuidv4 } from "uuid";
 
 const CommentForm = ({ postID }) => {
   const [comment, setComment] = useState("");
@@ -20,6 +20,7 @@ const CommentForm = ({ postID }) => {
           photoURL,
           comment,
           postTime: new Date().toDateString(),
+          postID: uuidv4(),
         }),
       });
     } catch (err) {
