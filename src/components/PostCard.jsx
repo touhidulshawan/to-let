@@ -1,12 +1,16 @@
 import DeleteIcon from "./icons/DeleteIcon";
 import { useAuth } from "../context/AuthContext";
-import MessageIcon from "./icons/MessageIcon";
+import CommentIcon from "./icons/CommentIcon";
+import { useState } from "react";
+import Modal from "./Modal";
 
 const PostCard = (props) => {
   const { userName, createdTime, ocrText, photoURL, uid, postID, deletePost } =
     props;
 
   const { currentUser } = useAuth();
+
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div className="w-full bg-white rounded-2xl shadow-lg mb-5 lg:w-6/12 lg:m-auto lg:mb-6">
@@ -25,9 +29,13 @@ const PostCard = (props) => {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <button className=" p-1 text-blue-600 pr-4 border-r-2 hover:text-blue-400 transition duration-300 ease-linear">
-            <MessageIcon />
+          <button
+            className=" p-1 text-purple-600 hover:text-purple-400 transition duration-300 ease-linear focus:ring-2 focus:ring-purple-300 rounded outline none"
+            onClick={() => setShowModal(!showModal)}
+          >
+            <CommentIcon />
           </button>
+          <div className="border-r-2 w-1 h-8"></div>
           <button
             className="text-red-500 disabled:opacity-50 disabled:cursor-not-allowed hover:text-red-700 focus:ring-2 focus:ring-red-600 p-2 rounded"
             disabled={uid !== currentUser.uid}
@@ -40,6 +48,7 @@ const PostCard = (props) => {
       <div className="py-3 px-3 leading-7 lg:leading-8 lg:px-5">
         <p className="text-gray-800">{ocrText}</p>
       </div>
+      {showModal ? <Modal modaltype="comment" id={postID} /> : null}
     </div>
   );
 };

@@ -77,6 +77,7 @@ const ORC = () => {
           uid,
           displayName,
           photoURL,
+          comments: [],
         });
       }
     } catch (e) {
