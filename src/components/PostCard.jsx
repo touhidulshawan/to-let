@@ -3,15 +3,23 @@ import { useAuth } from "../context/AuthContext";
 import CommentIcon from "./icons/CommentIcon";
 import { useState } from "react";
 import Modal from "./Modal";
+import CommentCard from "./CommentCard";
 
 const PostCard = (props) => {
-  const { userName, createdTime, ocrText, photoURL, uid, postID, deletePost } =
-    props;
+  const {
+    userName,
+    createdTime,
+    ocrText,
+    photoURL,
+    uid,
+    postID,
+    deletePost,
+    comments,
+  } = props;
 
   const { currentUser } = useAuth();
 
   const [showModal, setShowModal] = useState(false);
-
   return (
     <div className="w-full bg-white rounded-2xl shadow-lg mb-5 lg:w-6/12 lg:m-auto lg:mb-6">
       <div className="p-4 border-b-2 border-gray-200 mb-3 flex justify-between items-center ">
@@ -48,6 +56,19 @@ const PostCard = (props) => {
       <div className="py-3 px-3 leading-7 lg:leading-8 lg:px-5">
         <p className="text-gray-800">{ocrText}</p>
       </div>
+      {/* display comment here  */}
+      {comments.length > 0
+        ? comments.map((c) => (
+            <CommentCard
+              key={c.postTime}
+              uid={c.uid}
+              displayName={c.displayName}
+              photoURL={c.photoURL}
+              postTime={c.postTime}
+              comment={c.comment}
+            />
+          ))
+        : null}
       {showModal ? <Modal modaltype="comment" id={postID} /> : null}
     </div>
   );

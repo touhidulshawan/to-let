@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SendIcon from "./icons/SendIcon";
 import { useAuth } from "../context/AuthContext";
-import { firestore, arrayToUpdate } from "../Firebase";
+import { firestore, FieldValue } from "../Firebase";
 import Modal from "./Modal";
 
 const CommentForm = ({ postID }) => {
@@ -12,18 +12,19 @@ const CommentForm = ({ postID }) => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     const selectedPost = firestore.collection("ocrTexts").doc(postID);
-
     try {
       selectedPost.update({
-        comments: arrayToUpdate.arrayUnion({
+        comments: FieldValue.arrayUnion({
           uid,
           displayName,
           photoURL,
           comment,
+          postTime: new Date().toDateString(),
         }),
       });
     } catch (err) {
-      <Modal modalMessage="Something wrong. Try again later" />;
+      console.log(err);
+      // <Modal modalMessage="Something wrong. Try again later" />;
     }
     setComment("");
   };

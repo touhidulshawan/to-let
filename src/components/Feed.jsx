@@ -20,10 +20,8 @@ const Feed = () => {
         }));
         setTextList(data);
       });
-
     return unsubscribe;
   }, []);
-
   // delete post
   const deletePost = (postID) => {
     firestore
@@ -39,18 +37,21 @@ const Feed = () => {
   };
   const renderPost =
     textLists &&
-    textLists.map(({ displayName, ocrText, postTime, id, photoURL, uid }) => (
-      <PostCard
-        key={id}
-        postID={id}
-        userName={displayName}
-        ocrText={ocrText}
-        createdTime={postTime}
-        photoURL={photoURL}
-        uid={uid}
-        deletePost={deletePost}
-      />
-    ));
+    textLists.map(
+      ({ displayName, ocrText, postTime, id, photoURL, uid, comments }) => (
+        <PostCard
+          key={id}
+          postID={id}
+          userName={displayName}
+          ocrText={ocrText}
+          createdTime={postTime}
+          photoURL={photoURL}
+          uid={uid}
+          deletePost={deletePost}
+          comments={comments}
+        />
+      )
+    );
 
   return (
     <div className="px-4 py-3 flex flex-col-reverse">
