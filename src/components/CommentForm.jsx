@@ -46,7 +46,10 @@ const CommentForm = ({ postID }) => {
         value={comment}
         onChange={(evt) => setComment(evt.target.value)}
       ></textarea>
-      <button className="bg-blue-600 text-blue-100 px-4 py-1 rounded border-2 border-blue-600 tracking-wide flex items-center justify-center gap-1 outline-none hover:bg-blue-400 hover:text-blue-900 transition-all duration-200 ease-linear focus:border-transparent focus:ring-2 focus:ring-blue-400">
+      <button
+        type="submit"
+        className="bg-blue-600 text-blue-100 px-4 py-1 rounded border-2 border-blue-600 tracking-wide flex items-center justify-center gap-1 outline-none hover:bg-blue-400 hover:text-blue-900 transition-all duration-200 ease-linear focus:border-transparent focus:ring-2 focus:ring-blue-400"
+      >
         <span>Post Now</span>
         <span>
           <SendIcon />
