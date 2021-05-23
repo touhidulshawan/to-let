@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 const CommentCard = ({ uid, displayName, photoURL, postTime, comment }) => {
   const { currentUser } = useAuth();
   return (
-    <div className="my-4 flex justify-between items-start">
+    <div className="my-2 py-1 flex justify-between items-start border-b border-gray-700">
       <div className="flex items-start justify-start gap-4 pb-4">
         <img
           className="w-12 h-12 rounded-full border-2 border-gray-300 p-1"
