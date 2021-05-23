@@ -1,16 +1,10 @@
 import DeleteIcon from "./icons/DeleteIcon";
 import { useAuth } from "../context/AuthContext";
+import MessageIcon from "./icons/MessageIcon";
 
 const PostCard = (props) => {
-  const {
-    userName,
-    createdTime,
-    ocrText,
-    photoURL,
-    uid,
-    postID,
-    deletePost,
-  } = props;
+  const { userName, createdTime, ocrText, photoURL, uid, postID, deletePost } =
+    props;
 
   const { currentUser } = useAuth();
 
@@ -30,13 +24,18 @@ const PostCard = (props) => {
             <span className="text-sm px-4 text-gray-400">{`Posted on ${createdTime}`}</span>
           </div>
         </div>
-        <button
-          className="text-red-500 disabled:opacity-50 disabled:cursor-not-allowed hover:text-red-700 focus:ring-2 focus:ring-red-600 p-2 rounded"
-          disabled={uid !== currentUser.uid}
-          onClick={() => deletePost(postID)}
-        >
-          <DeleteIcon />
-        </button>
+        <div className="flex items-center gap-2">
+          <button className=" p-1 text-blue-600 pr-4 border-r-2 hover:text-blue-400 transition duration-300 ease-linear">
+            <MessageIcon />
+          </button>
+          <button
+            className="text-red-500 disabled:opacity-50 disabled:cursor-not-allowed hover:text-red-700 focus:ring-2 focus:ring-red-600 p-2 rounded"
+            disabled={uid !== currentUser.uid}
+            onClick={() => deletePost(postID)}
+          >
+            <DeleteIcon />
+          </button>
+        </div>
       </div>
       <div className="py-3 px-3 leading-7 lg:leading-8 lg:px-5">
         <p className="text-gray-800">{ocrText}</p>
