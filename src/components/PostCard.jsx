@@ -20,23 +20,23 @@ const PostCard = (props) => {
 
   const { currentUser } = useAuth();
 
-  const [showModal, setShowModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [errorModal, setErrorModal] = useState(false);
 
-  const removeComment = (commentID) => {
-    firestore
+  const removeComment = async (commentID) => {
+    const docSnapShot = await firestore
       .collection("ocrTexts")
       .doc(postID)
-      .update({
-        comments: FieldValue.arrayRemove(postID === commentID),
-      })
-      .then(() => {
-        setShowModal(true);
-      })
-      .catch((err) => {
-        setErrorModal(true);
+      .get();
+
+    if (docSnapShot.exists) {
+      const comments = docSnapShot.data().comments;
+      docSnapShot.ref.update({
+        comments: comments.filter((comment) => comment.commentID !== commentID),
       });
+    } else {
+      setErrorModal(true);
+    }
   };
   const handleCommentModal = () => {
     setShowCommentModal(!showCommentModal);
@@ -85,8 +85,8 @@ const PostCard = (props) => {
         {comments.length > 0 ? (
           comments.map((c) => (
             <CommentCard
-              key={c.postID}
-              postID={c.postID}
+              key={c.commentID}
+              commentID={c.commentID}
               uid={c.uid}
               displayName={c.displayName}
               photoURL={c.photoURL}
@@ -107,9 +107,6 @@ const PostCard = (props) => {
           id={postID}
           handleCommentModal={handleCommentModal}
         />
-      ) : null}
-      {showModal ? (
-        <Modal modalMessage="Comment has been removed successfully." success />
       ) : null}
       {errorModal ? (
         <Modal modalMessage="Something wrong! Please try again." />

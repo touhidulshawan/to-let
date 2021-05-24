@@ -7,7 +7,7 @@ const CommentCard = ({
   photoURL,
   postTime,
   comment,
-  postID,
+  commentID,
   handleRemove,
 }) => {
   const { currentUser } = useAuth();
@@ -30,7 +30,7 @@ const CommentCard = ({
       <button
         className="mt-4 mr-3 text-red-500 disabled:opacity-50 disabled:cursor-not-allowed hover:text-red-700 focus:ring-2 focus:ring-red-600 p-2 rounded"
         disabled={uid !== currentUser.uid}
-        onClick={() => handleRemove(postID)}
+        onClick={() => handleRemove(commentID)}
       >
         <DeleteIcon />
       </button>

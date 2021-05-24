@@ -20,7 +20,7 @@ const CommentForm = ({ postID }) => {
           photoURL,
           comment,
           postTime: new Date().toDateString(),
-          postID: uuidv4(),
+          commentID: uuidv4(),
         }),
       });
     } catch (err) {
